@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { RouterLink, RouterView } from 'vue-router'
+import 'vue3-toastify/dist/index.css'
 </script>
 
 <template>

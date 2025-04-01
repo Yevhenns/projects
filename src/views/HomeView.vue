@@ -5,6 +5,8 @@ import ModalWrapper from '@/components/ModalWrapper.vue'
 import CreateProjectForm from '@/components/CreateProjectForm.vue'
 import ProjectsTable from '../components/ProjectsTable.vue'
 import { useProjectsStore } from '@/stores/projects'
+import AppButton from '@/components/AppButton.vue'
+import { toast } from 'vue3-toastify'
 
 const store = useProjectsStore()
 
@@ -34,11 +36,19 @@ const toggleIsCreateModalShown = () => {
 const refreshProjects = async () => {
   await getProjectsList()
 }
+
+console.log(history)
+
+if (history.state.project === 'deleted') {
+  toast.success('Проект видалено!', { autoClose: 2000 })
+
+  history.replaceState({}, '')
+}
 </script>
 
 <template>
   <div>
-    <button type="button" @click="toggleIsCreateModalShown">Створити</button>
+    <AppButton type="button" @click="toggleIsCreateModalShown">Створити проект</AppButton>
     <p v-if="isLoading">Завантаження...</p>
     <ProjectsTable v-if="store.projects.length > 0" />
     <ModalWrapper :isCreateModalShown :toggleIsCreateModalShown>

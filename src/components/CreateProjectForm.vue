@@ -2,6 +2,7 @@
 import { ref, watch } from 'vue'
 import AppButton from './AppButton.vue'
 import { createProject } from '@/api/api'
+import { toast } from 'vue3-toastify'
 
 const props = defineProps<{
   toggleIsCreateModalShown: () => void
@@ -40,6 +41,9 @@ const createNewProject = async () => {
     isLoading.value = false
   } finally {
     isLoading.value = false
+    toast.success('Проект створено!', {
+      autoClose: 2000,
+    })
   }
 }
 

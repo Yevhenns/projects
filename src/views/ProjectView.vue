@@ -5,7 +5,7 @@ import CreateTaskForm from '@/components/CreateTaskForm.vue'
 import ModalWrapper from '@/components/ModalWrapper.vue'
 import TaskColumn from '@/components/TaskColumn.vue'
 import { useProjectsStore } from '@/stores/projects'
-import { onMounted, ref, watchEffect } from 'vue'
+import { nextTick, onMounted, ref, watchEffect } from 'vue'
 import { useRouter } from 'vue-router'
 
 const store = useProjectsStore()
@@ -51,10 +51,11 @@ const deleteProject = async () => {
   if (currentProject) {
     try {
       await deleteProjectById(currentProject?.id)
+      await nextTick()
     } catch (e) {
       console.log(e)
     } finally {
-      router.push('/')
+      router.push({ path: '/', state: { project: 'deleted' } })
     }
   }
 }
