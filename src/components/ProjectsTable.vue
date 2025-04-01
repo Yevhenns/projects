@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { useProjectsStore } from '@/stores/projects'
+import { VueDraggable } from 'vue-draggable-plus'
 import { useRouter } from 'vue-router'
 
 const store = useProjectsStore()
@@ -13,37 +14,43 @@ const goToProject = (id: string) => {
 </script>
 
 <template>
-  <table class="table">
-    <thead>
-      <tr>
-        <th>ID</th>
-        <th>Назва</th>
-        <th>Кількість завдань</th>
-        <th>Статус</th>
-        <th>Дата створення</th>
-      </tr>
-    </thead>
-
-    <tbody>
-      <tr v-for="project in store.projects" :key="project.id" @click="goToProject(project.id)">
-        <td>
-          <p>{{ project.id }}</p>
-        </td>
-        <td>
-          <p>{{ project.title }}</p>
-        </td>
-        <td>
-          <p>{{ project.tasks.length }}</p>
-        </td>
-        <td>
-          <p>{{ project.status }}</p>
-        </td>
-        <td>
-          <p>{{ project.createdAt }}</p>
-        </td>
-      </tr>
-    </tbody>
-  </table>
+  <VueDraggable v-model="store.projects" target=".sort-target" :animation="150">
+    <table class="table">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Назва</th>
+          <th>Кількість завдань</th>
+          <th>Статус</th>
+          <th>Дата створення</th>
+        </tr>
+      </thead>
+      <tbody class="sort-target">
+        <tr
+          class="cursor-move"
+          v-for="project in store.projects"
+          :key="project.id"
+          @click="goToProject(project.id)"
+        >
+          <td>
+            <p>{{ project.id }}</p>
+          </td>
+          <td>
+            <p>{{ project.title }}</p>
+          </td>
+          <td>
+            <p>{{ project.tasks.length }}</p>
+          </td>
+          <td>
+            <p>{{ project.status }}</p>
+          </td>
+          <td>
+            <p>{{ project.createdAt }}</p>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </VueDraggable>
 </template>
 
 <style scoped lang="scss">
