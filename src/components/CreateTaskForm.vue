@@ -9,7 +9,7 @@ const props = defineProps<{
   project: Project
 }>()
 
-// const emit = defineEmits(['taskCreated'])
+const emit = defineEmits(['taskCreated'])
 
 const title = ref('')
 const description = ref('')
@@ -39,11 +39,9 @@ const createNewProject = async () => {
         ...props.project,
         tasks: [...props.project.tasks, res.id],
       }
-
-      // Оновлюємо проект (якщо потрібно)
       await updateProject(updatedProject, props.project.id)
 
-      // emit('taskCreated')
+      emit('taskCreated', res.id)
       props.toggleIsCreateModalShown()
     }
   } catch (e) {

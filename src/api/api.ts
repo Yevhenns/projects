@@ -22,6 +22,11 @@ export const deleteProject = async (projectId: string): Promise<Project> => {
   return response.data
 }
 
+export const getTasks = async (): Promise<Task[]> => {
+  const response = await axios.get(`${API_URL}/tasks`)
+  return response.data as Task[]
+}
+
 export const createTask = async (task: TaskDto): Promise<Task> => {
   const response = await axios.post(`${API_URL}/tasks`, task)
   return response.data as Task
