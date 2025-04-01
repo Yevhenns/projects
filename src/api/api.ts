@@ -17,7 +17,7 @@ export const updateProject = async (project: Project, projectId: string): Promis
   return response.data
 }
 
-export const deleteProject = async (projectId: string): Promise<Project> => {
+export const deleteProjectById = async (projectId: string): Promise<Project> => {
   const response = await axios.delete(`${API_URL}/projects/${projectId}`)
   return response.data
 }
