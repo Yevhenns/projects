@@ -1,12 +1,10 @@
 type Status = 'todo' | 'in_progress' | 'done'
 
-type Assignees = 'Микола' | 'Іринка' | 'Свирид'
-
 type Task = {
   id: string
   title: string
   assignee: Assignees
-  status: Status
+  status: string
   deadline: string
   projectId: Project['id']
 }

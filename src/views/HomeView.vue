@@ -37,11 +37,8 @@ const refreshProjects = async () => {
   await getProjectsList()
 }
 
-console.log(history)
-
 if (history.state.project === 'deleted') {
   toast.success('Проект видалено!', { autoClose: 2000 })
-
   history.replaceState({}, '')
 }
 </script>

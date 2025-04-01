@@ -14,7 +14,7 @@ const emit = defineEmits(['taskCreated'])
 
 const title = ref('')
 const description = ref('')
-const assignee = ref<Assignees>('Микола')
+const assignee = ref('')
 const isValid = ref(false)
 const isLoading = ref(false)
 
