@@ -3,6 +3,7 @@ import { deleteProjectById, getTasks } from '@/api/api'
 import AppButton from '@/components/AppButton.vue'
 import CreateTaskForm from '@/components/CreateTaskForm.vue'
 import ModalWrapper from '@/components/ModalWrapper.vue'
+import TaskColumn from '@/components/TaskColumn.vue'
 import { useProjectsStore } from '@/stores/projects'
 import { onMounted, ref, watchEffect } from 'vue'
 import { useRouter } from 'vue-router'
@@ -68,7 +69,7 @@ watchEffect(() => {
 </script>
 
 <template>
-  <div class="project">
+  <div>
     <h1>Сторінка проекту</h1>
     <AppButton type="button" @click="toggleIsCreateModalShown">Створити завдання</AppButton>
     <p>ID: {{ currentProject?.id }}</p>
@@ -76,8 +77,8 @@ watchEffect(() => {
     <p>Опис: {{ currentProject?.description }}</p>
     <p>Статус: {{ currentProject?.status }}</p>
     <p>Створено: {{ currentProject?.createdAt }}</p>
-    <AppButton @click="deleteProject">Видалити</AppButton>
-    <h2>Список завдань</h2>
+    <AppButton @click="deleteProject">Видалити проект</AppButton>
+    <h2>Завдання</h2>
     <ModalWrapper v-if="currentProject" :isCreateModalShown :toggleIsCreateModalShown>
       <CreateTaskForm
         :toggleIsCreateModalShown
@@ -86,13 +87,18 @@ watchEffect(() => {
       />
     </ModalWrapper>
     <p>{{ tasks }}</p>
+    <div class="columnsWrapper">
+      <TaskColumn :tasks="tasks" status="todo" />
+      <TaskColumn :tasks="tasks" status="in_progress" />
+      <TaskColumn :tasks="tasks" status="done" />
+    </div>
   </div>
 </template>
 
 <style scoped lang="scss">
-.about {
-  min-height: 100vh;
+.columnsWrapper {
   display: flex;
   align-items: center;
+  justify-content: space-between;
 }
 </style>

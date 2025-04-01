@@ -37,12 +37,12 @@ const refreshProjects = async () => {
 </script>
 
 <template>
-  <main>
+  <div>
     <button type="button" @click="toggleIsCreateModalShown">Створити</button>
     <p v-if="isLoading">Завантаження...</p>
     <ProjectsTable v-if="store.projects.length > 0" />
     <ModalWrapper :isCreateModalShown :toggleIsCreateModalShown>
       <CreateProjectForm :toggleIsCreateModalShown @projectCreated="refreshProjects" />
     </ModalWrapper>
-  </main>
+  </div>
 </template>
