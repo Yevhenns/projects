@@ -25,7 +25,7 @@ const createNewProject = async () => {
   const project: ProjectDto = {
     title: title.value,
     description: description.value,
-    createdAt: new Date().toDateString(),
+    createdAt: new Date().toISOString().split('T')[0],
     status: 'todo',
     tasks: [],
   }
