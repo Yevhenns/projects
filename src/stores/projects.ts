@@ -1,12 +1,12 @@
-import { ref, computed } from 'vue'
+import { ref } from 'vue'
 import { defineStore } from 'pinia'
 
-export const useCounterStore = defineStore('counter', () => {
-  const count = ref(0)
-  const doubleCount = computed(() => count.value * 2)
-  function increment() {
-    count.value++
+export const useProjectsStore = defineStore('projects', () => {
+  const projects = ref<Project[]>([])
+
+  function setProjects(projectsArray: Project[]) {
+    projects.value = projectsArray
   }
 
-  return { count, doubleCount, increment }
+  return { projects, setProjects }
 })

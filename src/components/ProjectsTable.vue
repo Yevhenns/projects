@@ -1,7 +1,14 @@
 <script setup lang="ts">
-defineProps<{
-  projects: Project[] | null
-}>()
+import { useProjectsStore } from '@/stores/projects'
+import { useRouter } from 'vue-router'
+
+const store = useProjectsStore()
+
+const router = useRouter()
+
+const goToProject = (id: string) => {
+  router.push(`/${id}`)
+}
 </script>
 
 <template>
@@ -17,7 +24,7 @@ defineProps<{
     </thead>
 
     <tbody>
-      <tr v-for="project in projects" :key="project.id">
+      <tr v-for="project in store.projects" :key="project.id" @click="goToProject(project.id)">
         <td>
           <p>{{ project.id }}</p>
         </td>

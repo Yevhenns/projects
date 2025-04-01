@@ -4,8 +4,6 @@ const API_URL = 'https://67ea985d34bcedd95f63fb14.mockapi.io'
 
 export const getProjects = async (): Promise<Project[]> => {
   const response = await axios.get(`${API_URL}/projects`)
-  console.log(response)
-
   return response.data as Project[]
 }
 
