@@ -1,0 +1,93 @@
+<script setup lang="ts">
+import { ref, watch } from 'vue'
+import AppButton from './AppButton.vue'
+import { createTask, updateProject } from '@/api/api'
+import { assignees } from '@/assets/assignees'
+
+const props = defineProps<{
+  toggleIsCreateModalShown: () => void
+  project: Project
+}>()
+
+// const emit = defineEmits(['taskCreated'])
+
+const title = ref('')
+const description = ref('')
+const assignee = ref<Assignees>('Микола')
+const isValid = ref(false)
+const isLoading = ref(false)
+
+const projectTitleMinLength = 5
+
+const setIsValid = () => {
+  isValid.value = title.value.length >= projectTitleMinLength
+}
+
+const createNewProject = async () => {
+  isLoading.value = true
+  const task: TaskDto = {
+    title: title.value,
+    assignee: assignee.value,
+    deadline: new Date().toISOString().split('T')[0],
+    status: 'todo',
+    projectId: props.project.id,
+  }
+  try {
+    const res = await createTask(task)
+    if (res && props.project) {
+      const updatedProject = {
+        ...props.project,
+        tasks: [...props.project.tasks, res.id],
+      }
+
+      // Оновлюємо проект (якщо потрібно)
+      await updateProject(updatedProject, props.project.id)
+
+      // emit('taskCreated')
+      props.toggleIsCreateModalShown()
+    }
+  } catch (e) {
+    console.log(e)
+    isLoading.value = false
+  } finally {
+    isLoading.value = false
+  }
+}
+
+watch(title, setIsValid)
+</script>
+
+<template>
+  <form class="form">
+    <label for="title">Назва завдання</label>
+    <input
+      v-model="title"
+      placeholder="Введіть назву завдання"
+      id="title"
+      :errorMessage="!isValid ? 'Введіть від 5 символів' : ''"
+    />
+
+    <label for="assignee"> Вибір виконавця: </label>
+    <select name="assignee" v-model="assignee">
+      <option v-for="assignee in assignees" :key="assignee" :value="assignee">
+        {{ assignee }}
+      </option>
+    </select>
+
+    <label for="description">Опис проекту </label>
+    <input v-model="description" placeholder="Введіть опис проекту" id="description" />
+
+    <AppButton :isLoading="isLoading" :disabled="!isValid" @click="createNewProject"
+      >Створити</AppButton
+    >
+  </form>
+</template>
+
+<style scoped lang="scss">
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  text-align: left;
+}
+</style>

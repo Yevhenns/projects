@@ -7,7 +7,6 @@ const store = useProjectsStore()
 const router = useRouter()
 
 const goToProject = (id: string) => {
-  store.setCurrentProjectById(id)
   router.push(`/${id}`)
 }
 </script>
@@ -18,9 +17,9 @@ const goToProject = (id: string) => {
       <tr>
         <th>ID</th>
         <th>Назва</th>
-        <th>Кількість завдань</th>
+        <th>Виконавець</th>
         <th>Статус</th>
-        <th>Дата створення</th>
+        <th>Термін виконання</th>
       </tr>
     </thead>
 

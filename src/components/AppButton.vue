@@ -13,33 +13,36 @@ defineProps<{
 
 <style scoped lang="scss">
 .button {
-  background-color: var(--main-color);
-  color: var(--main-bg);
-  height: 32px;
-  border: var(--button-border);
-  border-radius: 4px;
-  display: flex;
+  display: inline-flex;
   align-items: center;
   justify-content: center;
-  padding: 0 8px;
+  padding: 10px 20px;
+  border-radius: 5px;
+  border: 2px solid #007bff;
+  background-color: #007bff;
+  color: #ffffff;
+  font-size: 16px;
+  font-weight: 600;
   cursor: pointer;
-  transition: var(--transition);
-  width: 100%;
+  transition:
+    background-color 0.3s ease,
+    transform 0.2s ease;
 
   &:hover {
-    box-shadow: var(--box-shadow);
+    background-color: #0056b3;
+    transform: scale(1.05);
   }
 
   &:disabled {
-    background-color: var(--disabled-bg);
-    color: var(--disabled-color);
+    background-color: #e0e0e0;
+    color: #aaa;
+    border: 2px solid #ddd;
     cursor: not-allowed;
-    box-shadow: none;
-    border: var(--button-border-disabled);
   }
 
-  .pi {
-    margin-left: 6px;
+  p {
+    margin: 0;
+    font-size: 14px;
   }
 }
 </style>

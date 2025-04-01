@@ -1,12 +1,14 @@
 type Status = 'todo' | 'in_progress' | 'done'
 
+type Assignees = 'Микола' | 'Іринка' | 'Свирид'
+
 type Task = {
   id: string
   title: string
-  assignee: 'string'
+  assignee: Assignees
   status: Status
   deadline: string
-  projectId: string
+  projectId: Project['id']
 }
 
 type TaskDto = Omit<Task, 'id'>
@@ -17,7 +19,7 @@ type Project = {
   status: Status
   createdAt: string
   description: string
-  tasks: taskId[]
+  tasks: Task['id'][]
 }
 
 type ProjectDto = Omit<Project, 'id'>

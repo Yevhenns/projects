@@ -9,15 +9,20 @@ export const getProjects = async (): Promise<Project[]> => {
 
 export const createProject = async (project: ProjectDto): Promise<Project> => {
   const response = await axios.post(`${API_URL}/projects`, project)
-  return response.data
+  return response.data as Project
 }
 
-export const editProject = async (project: ProjectDto, projectId: string): Promise<Project> => {
-  const response = await axios.patch(`${API_URL}/projects/${projectId}`, project)
+export const updateProject = async (project: Project, projectId: string): Promise<Project> => {
+  const response = await axios.put(`${API_URL}/projects/${projectId}`, project)
   return response.data
 }
 
 export const deleteProject = async (projectId: string): Promise<Project> => {
   const response = await axios.delete(`${API_URL}/projects/${projectId}`)
   return response.data
+}
+
+export const createTask = async (task: TaskDto): Promise<Task> => {
+  const response = await axios.post(`${API_URL}/tasks`, task)
+  return response.data as Task
 }
