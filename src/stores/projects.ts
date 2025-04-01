@@ -22,7 +22,7 @@ export const useProjectsStore = defineStore('projects', () => {
     }
   }
 
-  const setCurrentProjectHandler = (project: Project) => {
+  const setCurrentProjectHandler = (project: Project | null) => {
     currentProject.value = project
   }
 

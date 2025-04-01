@@ -24,6 +24,7 @@ const getProjectsList = async () => {
 
 onMounted(async () => {
   await getProjectsList()
+  store.setCurrentProjectHandler(null)
 })
 
 const toggleIsCreateModalShown = () => {
