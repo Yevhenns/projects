@@ -55,7 +55,7 @@ watchEffect(() => {
         <p>Виконавець: {{ task.assignee }}</p>
         <p>Срок виконання: {{ task.deadline }}</p>
         <p>Статус: {{ columnName }}</p>
-        <button @click="deleteTask(task.id, task.projectId)"></button>
+        <button @click="deleteTask(task.id, task.projectId)">Видалити</button>
       </div>
     </VueDraggable>
   </div>
