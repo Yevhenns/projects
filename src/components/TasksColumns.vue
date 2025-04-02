@@ -27,11 +27,14 @@ const list3 = ref(
 </script>
 
 <template>
-  <h2 class="heading">Завдання</h2>
-  <div class="columnsWrapper">
-    <TasksColumnItem :tasks="list1" status="todo" />
-    <TasksColumnItem :tasks="list2" status="in_progress" />
-    <TasksColumnItem :tasks="list3" status="done" />
+  <h2 v-if="list1.length === 0" class="heading">Немає завдань</h2>
+  <div v-if="list1.length > 0">
+    <h2 class="heading">Завдання</h2>
+    <div class="columnsWrapper">
+      <TasksColumnItem :tasks="list1" status="todo" />
+      <TasksColumnItem :tasks="list2" status="in_progress" />
+      <TasksColumnItem :tasks="list3" status="done" />
+    </div>
   </div>
 </template>
 

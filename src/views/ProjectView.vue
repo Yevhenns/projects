@@ -75,6 +75,7 @@ watchEffect(() => {
         @taskCreated="refreshTasks"
       />
     </ModalWrapper>
+
     <TasksColumns />
   </div>
 </template>
