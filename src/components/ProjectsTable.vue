@@ -72,6 +72,7 @@ th {
   font-weight: 600;
   font-size: 16px;
   border-bottom: 2px solid #2980b9;
+  border-right: 1px solid #ddd;
 }
 
 td {
@@ -80,6 +81,7 @@ td {
   font-size: 14px;
   color: #333;
   border-top: 1px solid #ddd;
+  border-right: 1px solid #ddd;
 }
 
 tr:nth-child(even) {
@@ -98,5 +100,10 @@ tr.cursor-move {
 td p {
   margin: 0;
   word-wrap: break-word;
+}
+
+th:last-child,
+td:last-child {
+  border-right: none;
 }
 </style>
