@@ -88,11 +88,6 @@ tr:nth-child(even) {
   background-color: #f4f6f9;
 }
 
-tr:hover {
-  background-color: #eaf1f7;
-  cursor: pointer;
-}
-
 tr.cursor-move {
   cursor: move;
 }
