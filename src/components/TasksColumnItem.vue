@@ -3,6 +3,7 @@ import { deleteTaskById, updateProject } from '@/api/api'
 import { useProjectsStore } from '@/stores/projects'
 import { ref, watchEffect } from 'vue'
 import { VueDraggable } from 'vue-draggable-plus'
+import { toast } from 'vue3-toastify'
 
 const props = defineProps<{
   status: Status
@@ -35,6 +36,8 @@ const deleteTask = async (id: string, projectId: string) => {
     await deleteTaskById(id)
   } catch (e) {
     console.log(e)
+  } finally {
+    toast.success('Завдання видалено!', { autoClose: 2000 })
   }
 }
 
