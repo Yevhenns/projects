@@ -19,7 +19,8 @@ const toggleIsCreateModalShown = () => {
 }
 
 const refreshProjects = async () => {
-  await projectsStore.getProjectsList()
+  const res = await projectsStore.getProjectsList()
+  if (res) projectsStore.filteredProjects = projectsStore.projects
 }
 
 if (history.state.project === 'deleted') {
