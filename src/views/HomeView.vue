@@ -44,8 +44,10 @@ if (history.state.project === 'deleted') {
 </script>
 
 <template>
-  <div>
-    <AppButton type="button" @click="toggleIsCreateModalShown">Створити проект</AppButton>
+  <div class="page">
+    <AppButton class="create-button" type="button" @click="toggleIsCreateModalShown"
+      >Створити проект</AppButton
+    >
     <p v-if="isLoading">Завантаження...</p>
     <ProjectsTable v-if="projectsStore.projects.length > 0" />
     <ModalWrapper :isCreateModalShown :toggleIsCreateModalShown>
@@ -54,4 +56,8 @@ if (history.state.project === 'deleted') {
   </div>
 </template>
 
-<style scoped lang="scss"></style>
+<style scoped lang="scss">
+.create-button {
+  margin-bottom: 20px;
+}
+</style>
