@@ -53,3 +53,5 @@ if (history.state.project === 'deleted') {
     </ModalWrapper>
   </div>
 </template>
+
+<style scoped lang="scss"></style>
