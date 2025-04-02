@@ -52,13 +52,15 @@ if (history.state.project === 'deleted') {
       Створити проект
     </AppButton>
 
+    <ProjectsTable v-if="projectsStore.projects.length > 0" />
+
+    <h2 class="title" v-if="projectsStore.projects.length === 0">Немає проектів</h2>
+
     <Teleport to="body">
       <div v-if="isLoading" class="loading-wrapper">
         <p>Завантаження...</p>
       </div>
     </Teleport>
-
-    <ProjectsTable v-if="projectsStore.projects.length > 0" />
 
     <ModalWrapper :isCreateModalShown :toggleIsCreateModalShown>
       <CreateProjectForm :toggleIsCreateModalShown @projectCreated="refreshProjects" />
@@ -80,5 +82,11 @@ if (history.state.project === 'deleted') {
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+.heading {
+  text-align: center;
+  font-size: 24px;
+  font-weight: 600;
 }
 </style>
