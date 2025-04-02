@@ -7,8 +7,10 @@ import ProjectsTable from '../components/ProjectsTable.vue'
 import { useProjectsStore } from '@/stores/projects'
 import AppButton from '@/components/AppButton.vue'
 import { toast } from 'vue3-toastify'
+import { useTasksStore } from '@/stores/tasks'
 
 const projectsStore = useProjectsStore()
+const tasksStore = useTasksStore()
 
 const isCreateModalShown = ref(false)
 const isLoading = ref(false)
@@ -27,6 +29,7 @@ const getProjectsList = async () => {
 onMounted(async () => {
   await getProjectsList()
   projectsStore.setCurrentProjectHandler(null)
+  await tasksStore.getAllTasks()
 })
 
 const toggleIsCreateModalShown = () => {

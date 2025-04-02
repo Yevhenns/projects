@@ -6,7 +6,7 @@ import ModalWrapper from '@/components/ModalWrapper.vue'
 import TasksColumns from '@/components/TasksColumns.vue'
 import { useProjectsStore } from '@/stores/projects'
 import { useTasksStore } from '@/stores/tasks'
-import { nextTick, onMounted, ref, watchEffect } from 'vue'
+import { nextTick, ref, watchEffect } from 'vue'
 import { useRouter } from 'vue-router'
 
 const projectsStore = useProjectsStore()
@@ -47,10 +47,6 @@ const deleteProject = async () => {
     }
   }
 }
-
-onMounted(() => {
-  tasksStore.getAllTasks()
-})
 
 watchEffect(() => {
   if (!projectsStore.currentProject) router.push('/')
