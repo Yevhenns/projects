@@ -27,9 +27,6 @@ const list3 = ref(
 </script>
 
 <template>
-  <p>{{ tasksStore.allTasks }}</p>
-  <p>{{ projectsStore.currentProject }}</p>
-  <p>{{ list1 }}</p>
   <h2 v-if="list1.length === 0" class="heading">Немає завдань</h2>
   <div v-if="list1.length > 0">
     <h2 class="heading">Завдання</h2>

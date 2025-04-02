@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { deleteTaskById, updateProject } from '@/api/api'
 import { useProjectsStore } from '@/stores/projects'
+import { useTasksStore } from '@/stores/tasks'
 import { ref, watchEffect } from 'vue'
 import { VueDraggable } from 'vue-draggable-plus'
 import { toast } from 'vue3-toastify'
@@ -11,6 +12,7 @@ const props = defineProps<{
 }>()
 
 const projectsStore = useProjectsStore()
+const tasksStore = useTasksStore()
 
 const filteredTasks = ref<Task[]>([])
 
@@ -23,17 +25,26 @@ const getColumnName = () => {
 const columnName = getColumnName()
 
 const deleteTask = async (id: string, projectId: string) => {
-  const filteredTasks = projectsStore.currentProject?.tasks.filter((item) => item !== id)
+  const currentProjectFromArray = projectsStore.projects.find((item) => item.id === projectId)
+  const filteredTasks = currentProjectFromArray?.tasks.filter((item) => item !== id)
   try {
     if (projectsStore.currentProject) {
       const updatedProject = {
         ...projectsStore.currentProject,
         tasks: [...(filteredTasks || [])],
       }
-      if (updatedProject) await updateProject(updatedProject, projectId)
+      if (updatedProject) {
+        await updateProject(updatedProject, projectId)
+        projectsStore.currentProject = updatedProject
+      }
     }
-
-    await deleteTaskById(id)
+    const deleteResponse = await deleteTaskById(id)
+    if (deleteResponse) {
+      const response = await projectsStore.getProjectsList()
+      if (response) {
+        await tasksStore.getAllTasks()
+      }
+    }
   } catch (e) {
     console.log(e)
   } finally {
