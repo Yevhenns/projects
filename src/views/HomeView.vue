@@ -8,7 +8,7 @@ import { useProjectsStore } from '@/stores/projects'
 import AppButton from '@/components/AppButton.vue'
 import { toast } from 'vue3-toastify'
 
-const store = useProjectsStore()
+const projectsStore = useProjectsStore()
 
 const isCreateModalShown = ref(false)
 const isLoading = ref(false)
@@ -16,7 +16,7 @@ const isLoading = ref(false)
 const getProjectsList = async () => {
   isLoading.value = true
   try {
-    store.setProjects(await getProjects())
+    projectsStore.setProjects(await getProjects())
   } catch (error) {
     console.error('Помилка', error)
   } finally {
@@ -26,7 +26,7 @@ const getProjectsList = async () => {
 
 onMounted(async () => {
   await getProjectsList()
-  store.setCurrentProjectHandler(null)
+  projectsStore.setCurrentProjectHandler(null)
 })
 
 const toggleIsCreateModalShown = () => {
@@ -47,7 +47,7 @@ if (history.state.project === 'deleted') {
   <div>
     <AppButton type="button" @click="toggleIsCreateModalShown">Створити проект</AppButton>
     <p v-if="isLoading">Завантаження...</p>
-    <ProjectsTable v-if="store.projects.length > 0" />
+    <ProjectsTable v-if="projectsStore.projects.length > 0" />
     <ModalWrapper :isCreateModalShown :toggleIsCreateModalShown>
       <CreateProjectForm :toggleIsCreateModalShown @projectCreated="refreshProjects" />
     </ModalWrapper>

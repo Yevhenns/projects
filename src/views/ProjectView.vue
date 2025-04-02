@@ -9,11 +9,8 @@ import { useTasksStore } from '@/stores/tasks'
 import { nextTick, onMounted, ref, watchEffect } from 'vue'
 import { useRouter } from 'vue-router'
 
-const store = useProjectsStore()
-const { currentProject, setCurrentProjectHandler } = store
-
+const projectsStore = useProjectsStore()
 const tasksStore = useTasksStore()
-const { getAllTasks } = tasksStore
 
 const router = useRouter()
 
@@ -24,14 +21,14 @@ const toggleIsCreateModalShown = () => {
 }
 
 const refreshTasks = async (taskId: string) => {
-  if (currentProject) {
+  if (projectsStore.currentProject) {
     try {
       const updatedProject = {
-        ...currentProject,
-        tasks: [...currentProject.tasks, taskId],
+        ...projectsStore.currentProject,
+        tasks: [...projectsStore.currentProject.tasks, taskId],
       }
-      setCurrentProjectHandler(updatedProject)
-      await getAllTasks()
+      projectsStore.setCurrentProjectHandler(updatedProject)
+      await tasksStore.getAllTasks()
     } catch (e) {
       console.log(e)
     }
@@ -39,9 +36,9 @@ const refreshTasks = async (taskId: string) => {
 }
 
 const deleteProject = async () => {
-  if (currentProject) {
+  if (projectsStore.currentProject) {
     try {
-      await deleteProjectById(currentProject?.id)
+      await deleteProjectById(projectsStore.currentProject?.id)
       await nextTick()
     } catch (e) {
       console.log(e)
@@ -52,11 +49,11 @@ const deleteProject = async () => {
 }
 
 onMounted(() => {
-  getAllTasks()
+  tasksStore.getAllTasks()
 })
 
 watchEffect(() => {
-  if (!currentProject) router.push('/')
+  if (!projectsStore.currentProject) router.push('/')
 })
 </script>
 
@@ -64,17 +61,17 @@ watchEffect(() => {
   <div>
     <h1>Сторінка проекту</h1>
     <AppButton type="button" @click="toggleIsCreateModalShown">Створити завдання</AppButton>
-    <p>ID: {{ currentProject?.id }}</p>
-    <p>Назва: {{ currentProject?.title }}</p>
-    <p>Опис: {{ currentProject?.description }}</p>
-    <p>Статус: {{ currentProject?.status }}</p>
-    <p>Створено: {{ currentProject?.createdAt }}</p>
+    <p>ID: {{ projectsStore.currentProject?.id }}</p>
+    <p>Назва: {{ projectsStore.currentProject?.title }}</p>
+    <p>Опис: {{ projectsStore.currentProject?.description }}</p>
+    <p>Статус: {{ projectsStore.currentProject?.status }}</p>
+    <p>Створено: {{ projectsStore.currentProject?.createdAt }}</p>
     <AppButton @click="deleteProject">Видалити проект</AppButton>
     <h2>Завдання</h2>
-    <ModalWrapper v-if="currentProject" :isCreateModalShown :toggleIsCreateModalShown>
+    <ModalWrapper v-if="projectsStore.currentProject" :isCreateModalShown :toggleIsCreateModalShown>
       <CreateTaskForm
         :toggleIsCreateModalShown
-        :project="currentProject"
+        :project="projectsStore.currentProject"
         @taskCreated="refreshTasks"
       />
     </ModalWrapper>
