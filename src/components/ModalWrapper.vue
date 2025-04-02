@@ -11,7 +11,9 @@ defineProps<{
   <Teleport to="body">
     <div v-if="isCreateModalShown" class="modal-overlay">
       <div class="modal-content">
-        <button class="close-btn" @click="toggleIsCreateModalShown">X</button>
+        <button class="close-btn" @click="toggleIsCreateModalShown">
+          <i class="pi pi-times" style="font-size: 16px"></i>
+        </button>
         <slot></slot>
       </div>
     </div>
@@ -43,9 +45,31 @@ defineProps<{
   position: absolute;
   top: 10px;
   right: 10px;
-  background: none;
+  width: 32px;
+  height: 32px;
+  background: white;
   border: none;
-  font-size: 20px;
+  border-radius: 50%;
+  font-size: 18px;
+  font-weight: bold;
+  color: #333;
   cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  transition:
+    background 0.2s,
+    transform 0.2s;
+
+  &:hover {
+    background: #f0f0f0;
+    transform: scale(1.1);
+  }
+
+  &:active {
+    background: #e0e0e0;
+    transform: scale(1);
+  }
 }
 </style>

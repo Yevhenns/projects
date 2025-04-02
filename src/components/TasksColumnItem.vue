@@ -67,7 +67,9 @@ watchEffect(() => {
         <p>Виконавець: {{ task.assignee }}</p>
         <p>Срок виконання: {{ task.deadline }}</p>
         <p>Статус: {{ columnName }}</p>
-        <button @click="deleteTask(task.id, task.projectId)">Видалити</button>
+        <button class="delete-btn" @click="deleteTask(task.id, task.projectId)">
+          <i class="pi pi-times" style="font-size: 16px"></i>
+        </button>
       </div>
     </VueDraggable>
   </div>
@@ -104,6 +106,7 @@ watchEffect(() => {
   }
 
   .card {
+    position: relative;
     padding: 15px;
     border-radius: 10px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
@@ -127,6 +130,38 @@ watchEffect(() => {
 
   .done {
     background-color: #2ecc71;
+  }
+
+  .delete-btn {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    width: 32px;
+    height: 32px;
+    background: white;
+    border: none;
+    border-radius: 50%;
+    font-size: 18px;
+    font-weight: bold;
+    color: #333;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    transition:
+      background 0.2s,
+      transform 0.2s;
+
+    &:hover {
+      background: #f0f0f0;
+      transform: scale(1.1);
+    }
+
+    &:active {
+      background: #e0e0e0;
+      transform: scale(1);
+    }
   }
 }
 </style>

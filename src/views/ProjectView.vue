@@ -43,7 +43,10 @@ const deleteProject = async () => {
   }
 }
 
-onMounted(async () => await projectsStore.getProjectsList())
+onMounted(async () => {
+  await projectsStore.getProjectsList()
+  await tasksStore.getAllTasks()
+})
 
 watchEffect(() => {
   if (!projectsStore.currentProjectId) router.push('/')

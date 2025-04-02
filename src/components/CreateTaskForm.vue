@@ -79,7 +79,7 @@ watch(title, setIsValid)
       </select>
     </div>
     <div>
-      <label for="description">Опис проекту </label>
+      <label for="description">Опис завдання </label>
       <input v-model="description" placeholder="Введіть опис проекту" id="description" />
     </div>
 
