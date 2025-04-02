@@ -3,18 +3,18 @@ import { useProjectsStore } from '@/stores/projects'
 import { VueDraggable } from 'vue-draggable-plus'
 import { useRouter } from 'vue-router'
 
-const store = useProjectsStore()
+const projectStore = useProjectsStore()
 
 const router = useRouter()
 
 const goToProject = (id: string) => {
-  store.setCurrentProjectById(id)
+  projectStore.setCurrentProjectId(id)
   router.push(`/${id}`)
 }
 </script>
 
 <template>
-  <VueDraggable v-model="store.filteredProjects" target=".sort-target" :animation="150">
+  <VueDraggable v-model="projectStore.filteredProjects" target=".sort-target" :animation="150">
     <table class="table">
       <thead>
         <tr>
@@ -28,7 +28,7 @@ const goToProject = (id: string) => {
       <tbody class="sort-target">
         <tr
           class="cursor-move"
-          v-for="project in store.filteredProjects"
+          v-for="project in projectStore.filteredProjects"
           :key="project.id"
           @click="goToProject(project.id)"
         >

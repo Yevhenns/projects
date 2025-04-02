@@ -38,7 +38,7 @@ watch(
 
 onMounted(async () => {
   await projectsStore.getProjectsList()
-  projectsStore.setCurrentProjectHandler(null)
+  projectsStore.setCurrentProjectId(null)
   await tasksStore.getAllTasks()
   projectsStore.filteredProjects = projectsStore.projects
 })

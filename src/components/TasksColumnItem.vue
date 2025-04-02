@@ -25,8 +25,7 @@ const getColumnName = () => {
 const columnName = getColumnName()
 
 const deleteTask = async (id: string, projectId: string) => {
-  const currentProjectFromArray = projectsStore.projects.find((item) => item.id === projectId)
-  const filteredTasks = currentProjectFromArray?.tasks.filter((item) => item !== id)
+  const filteredTasks = projectsStore.currentProject?.tasks.filter((item) => item !== id)
   try {
     if (projectsStore.currentProject) {
       const updatedProject = {
@@ -35,7 +34,6 @@ const deleteTask = async (id: string, projectId: string) => {
       }
       if (updatedProject) {
         await updateProject(updatedProject, projectId)
-        projectsStore.currentProject = updatedProject
       }
     }
     const deleteResponse = await deleteTaskById(id)

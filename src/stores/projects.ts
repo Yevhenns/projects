@@ -1,12 +1,16 @@
-import { ref } from 'vue'
+import { computed, ref } from 'vue'
 import { defineStore } from 'pinia'
 import { getProjects } from '@/api/api'
+import { useLocalStorage } from '@vueuse/core'
 
 export const useProjectsStore = defineStore('projects', () => {
   const projects = ref<Project[]>([])
   const filteredProjects = ref<Project[]>([])
-  const currentProject = ref<Project | null>(null)
   const isLoadingProjects = ref(false)
+  const currentProjectId = useLocalStorage<string | null>('currentProjectId', null)
+  const currentProject = computed(
+    () => projects.value.find((item) => item.id === currentProjectId.value) || null,
+  )
 
   function setProjects(projectsArray: Project[]) {
     projects.value = projectsArray
@@ -16,15 +20,8 @@ export const useProjectsStore = defineStore('projects', () => {
     filteredProjects.value = projectsArray
   }
 
-  const setCurrentProjectById = (id: string) => {
-    const project = projects.value.find((item) => item.id === id)
-    if (project) {
-      currentProject.value = project
-    }
-  }
-
-  const setCurrentProjectHandler = (project: Project | null) => {
-    currentProject.value = project
+  const setCurrentProjectId = (id: string | null) => {
+    currentProjectId.value = id
   }
 
   async function getProjectsList() {
@@ -44,10 +41,10 @@ export const useProjectsStore = defineStore('projects', () => {
     currentProject,
     isLoadingProjects,
     filteredProjects,
+    currentProjectId,
     setProjects,
-    setCurrentProjectById,
-    setCurrentProjectHandler,
     getProjectsList,
     setFilteredProjects,
+    setCurrentProjectId,
   }
 })
