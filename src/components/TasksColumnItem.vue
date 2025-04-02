@@ -43,7 +43,7 @@ watchEffect(() => {
 .column {
   border: 1px solid #ddd;
   padding: 15px;
-  width: 30%;
+  width: 100%;
   display: flex;
   flex-direction: column;
   gap: 15px;

@@ -67,7 +67,6 @@ watchEffect(() => {
     <p>Статус: {{ projectsStore.currentProject?.status }}</p>
     <p>Створено: {{ projectsStore.currentProject?.createdAt }}</p>
     <AppButton @click="deleteProject">Видалити проект</AppButton>
-    <h2>Завдання</h2>
     <ModalWrapper v-if="projectsStore.currentProject" :isCreateModalShown :toggleIsCreateModalShown>
       <CreateTaskForm
         :toggleIsCreateModalShown

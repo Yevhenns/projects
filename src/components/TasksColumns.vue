@@ -27,6 +27,7 @@ const list3 = ref(
 </script>
 
 <template>
+  <h2 class="heading">Завдання</h2>
   <div class="columnsWrapper">
     <TasksColumnItem :tasks="list1" status="todo" />
     <TasksColumnItem :tasks="list2" status="in_progress" />
@@ -35,9 +36,17 @@ const list3 = ref(
 </template>
 
 <style scoped lang="scss">
+.heading {
+  text-align: center;
+  font-size: 24px;
+  font-weight: 600;
+}
+
 .columnsWrapper {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  gap: 20px;
+  margin-top: 20px;
 }
 </style>
