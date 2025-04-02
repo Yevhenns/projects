@@ -61,23 +61,27 @@ watch(title, setIsValid)
 
 <template>
   <form class="form">
-    <label for="title">Назва завдання</label>
-    <input
-      v-model="title"
-      placeholder="Введіть назву завдання"
-      id="title"
-      :errorMessage="!isValid ? 'Введіть від 5 символів' : ''"
-    />
-
-    <label for="assignee"> Вибір виконавця: </label>
-    <select name="assignee" v-model="assignee">
-      <option v-for="assignee in assignees" :key="assignee" :value="assignee">
-        {{ assignee }}
-      </option>
-    </select>
-
-    <label for="description">Опис проекту </label>
-    <input v-model="description" placeholder="Введіть опис проекту" id="description" />
+    <div>
+      <label for="title">Назва завдання</label>
+      <input
+        v-model="title"
+        placeholder="Введіть назву завдання"
+        id="title"
+        :errorMessage="!isValid ? 'Введіть від 5 символів' : ''"
+      />
+    </div>
+    <div>
+      <label for="assignee"> Вибір виконавця: </label>
+      <select name="assignee" v-model="assignee">
+        <option v-for="assignee in assignees" :key="assignee" :value="assignee">
+          {{ assignee }}
+        </option>
+      </select>
+    </div>
+    <div>
+      <label for="description">Опис проекту </label>
+      <input v-model="description" placeholder="Введіть опис проекту" id="description" />
+    </div>
 
     <AppButton :isLoading="isLoading" :disabled="!isValid" @click="createNewProject"
       >Створити</AppButton
@@ -89,7 +93,8 @@ watch(title, setIsValid)
 .form {
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  gap: 20px;
   text-align: left;
+  max-width: 400px;
 }
 </style>

@@ -83,44 +83,6 @@ watch(title, setIsValid)
   flex-direction: column;
   gap: 20px;
   text-align: left;
-
-  .input {
-    padding: 10px 20px;
-    font-size: 16px;
-    border: 2px solid #007bff;
-    border-radius: 5px;
-    background-color: #ffffff;
-    color: #333;
-    width: 100%;
-    box-sizing: border-box;
-    transition:
-      border-color 0.3s ease,
-      box-shadow 0.3s ease;
-
-    &:focus {
-      outline: none;
-      border-color: #0056b3;
-      box-shadow: 0 0 5px rgba(0, 91, 187, 0.4);
-    }
-
-    &::placeholder {
-      color: #888;
-    }
-
-    &:disabled {
-      background-color: #f5f5f5;
-      border: 2px solid #ddd;
-      color: #aaa;
-      cursor: not-allowed;
-    }
-  }
-
-  label {
-    font-size: 16px;
-    margin-bottom: 5px;
-    font-weight: 600;
-    color: #333;
-    display: inline-block;
-  }
+  max-width: 400px;
 }
 </style>
