@@ -14,7 +14,7 @@ const goToProject = (id: string) => {
 </script>
 
 <template>
-  <VueDraggable v-model="store.projects" target=".sort-target" :animation="150">
+  <VueDraggable v-model="store.filteredProjects" target=".sort-target" :animation="150">
     <table class="table">
       <thead>
         <tr>
@@ -28,7 +28,7 @@ const goToProject = (id: string) => {
       <tbody class="sort-target">
         <tr
           class="cursor-move"
-          v-for="project in store.projects"
+          v-for="project in store.filteredProjects"
           :key="project.id"
           @click="goToProject(project.id)"
         >

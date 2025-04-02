@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { onMounted, ref } from 'vue'
+import { onMounted, ref, watch } from 'vue'
 import ModalWrapper from '@/components/ModalWrapper.vue'
 import CreateProjectForm from '@/components/CreateProjectForm.vue'
 import ProjectsTable from '../components/ProjectsTable.vue'
@@ -12,6 +12,7 @@ const projectsStore = useProjectsStore()
 const tasksStore = useTasksStore()
 
 const isCreateModalShown = ref(false)
+const filter = ref('')
 
 const toggleIsCreateModalShown = () => {
   isCreateModalShown.value = !isCreateModalShown.value
@@ -26,22 +27,38 @@ if (history.state.project === 'deleted') {
   history.replaceState({}, '')
 }
 
+watch(
+  filter,
+  () =>
+    (projectsStore.filteredProjects = projectsStore.projects.filter((item) =>
+      item.title.includes(filter.value),
+    )),
+)
+
 onMounted(async () => {
   await projectsStore.getProjectsList()
   projectsStore.setCurrentProjectHandler(null)
   await tasksStore.getAllTasks()
+  projectsStore.filteredProjects = projectsStore.projects
 })
 </script>
 
 <template>
   <div class="page">
-    <AppButton class="create-button" type="button" @click="toggleIsCreateModalShown">
-      Створити проект
-    </AppButton>
+    <div class="controls">
+      <AppButton type="button" @click="toggleIsCreateModalShown"> Створити проект </AppButton>
 
-    <ProjectsTable v-if="projectsStore.projects.length > 0" />
+      <input class="filter-input" placeholder="Фільтр" v-model="filter" />
+    </div>
 
-    <h2 class="title" v-if="projectsStore.projects.length === 0">Немає проектів</h2>
+    <ProjectsTable v-if="projectsStore.filteredProjects.length > 0" />
+
+    <h2
+      class="title"
+      v-if="projectsStore.filteredProjects.length === 0 && !projectsStore.isLoadingProjects"
+    >
+      Немає проектів
+    </h2>
 
     <Teleport to="body">
       <div v-if="projectsStore.isLoadingProjects" class="loading-wrapper">
@@ -56,10 +73,6 @@ onMounted(async () => {
 </template>
 
 <style scoped lang="scss">
-.create-button {
-  margin-bottom: 20px;
-}
-
 .loading-wrapper {
   position: fixed;
   top: 0;
@@ -69,6 +82,18 @@ onMounted(async () => {
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+.controls {
+  align-items: center;
+  justify-content: flex-start;
+  display: flex;
+  margin-bottom: 20px;
+  gap: 20px;
+}
+
+.filter-input {
+  width: 200px;
 }
 
 .heading {

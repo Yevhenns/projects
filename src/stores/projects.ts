@@ -4,11 +4,16 @@ import { getProjects } from '@/api/api'
 
 export const useProjectsStore = defineStore('projects', () => {
   const projects = ref<Project[]>([])
+  const filteredProjects = ref<Project[]>([])
   const currentProject = ref<Project | null>(null)
   const isLoadingProjects = ref(false)
 
   function setProjects(projectsArray: Project[]) {
     projects.value = projectsArray
+  }
+
+  function setFilteredProjects(projectsArray: Project[]) {
+    filteredProjects.value = projectsArray
   }
 
   const setCurrentProjectById = (id: string) => {
@@ -38,9 +43,11 @@ export const useProjectsStore = defineStore('projects', () => {
     projects,
     currentProject,
     isLoadingProjects,
+    filteredProjects,
     setProjects,
     setCurrentProjectById,
     setCurrentProjectHandler,
     getProjectsList,
+    setFilteredProjects,
   }
 })
