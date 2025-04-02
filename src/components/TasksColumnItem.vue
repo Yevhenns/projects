@@ -26,14 +26,14 @@ watchEffect(() => {
 
 <template>
   <div class="column">
-    <h3>{{ columnName }}</h3>
+    <h3 class="title">{{ columnName }}</h3>
     <VueDraggable class="card-wrapper" v-model="filteredTasks" ghostClass="ghost" group="people">
       <div :class="status" class="card" v-for="task in filteredTasks" :key="task.id">
         <p>ID: {{ task.id }}</p>
         <p>Назва: {{ task.title }}</p>
         <p>Виконавець: {{ task.assignee }}</p>
         <p>Срок виконання: {{ task.deadline }}</p>
-        <p>Статус: {{ status }}</p>
+        <p>Статус: {{ columnName }}</p>
       </div>
     </VueDraggable>
   </div>
@@ -41,14 +41,26 @@ watchEffect(() => {
 
 <style scoped lang="scss">
 .column {
-  border: 1px solid black;
-  padding: 10px;
+  border: 1px solid #ddd;
+  padding: 15px;
   width: 30%;
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 15px;
   align-self: flex-start;
-  border-radius: 20px;
+  border-radius: 15px;
+  background-color: #f4f7f9;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transition: background-color 0.3s ease;
+
+  &:hover {
+    background-color: #e9eff1;
+  }
+
+  .title {
+    font-size: 20px;
+    font-weight: 600;
+  }
 
   .card-wrapper {
     display: flex;
@@ -58,8 +70,17 @@ watchEffect(() => {
   }
 
   .card {
-    padding: 10px;
+    padding: 15px;
     border-radius: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    transition:
+      box-shadow 0.3s ease,
+      transform 0.3s ease;
+
+    &:hover {
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+      transform: translateY(-3px);
+    }
   }
 
   .todo {
