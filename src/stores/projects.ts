@@ -1,16 +1,10 @@
 import { ref } from 'vue'
 import { defineStore } from 'pinia'
-import { useLocalStorage } from '@vueuse/core'
 import { getProjects } from '@/api/api'
 
 export const useProjectsStore = defineStore('projects', () => {
   const projects = ref<Project[]>([])
-  const currentProject = useLocalStorage<Project | null>('currentProject', null, {
-    serializer: {
-      read: (v: string) => (v ? JSON.parse(v) : null),
-      write: (v: unknown) => JSON.stringify(v),
-    },
-  })
+  const currentProject = ref<Project | null>(null)
   const isLoadingProjects = ref(false)
 
   function setProjects(projectsArray: Project[]) {

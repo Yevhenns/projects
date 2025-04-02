@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { deleteTaskById, updateProject } from '@/api/api'
+import { useProjectsStore } from '@/stores/projects'
 import { ref, watchEffect } from 'vue'
 import { VueDraggable } from 'vue-draggable-plus'
 
@@ -6,6 +8,8 @@ const props = defineProps<{
   status: Status
   tasks: Task[]
 }>()
+
+const projectsStore = useProjectsStore()
 
 const filteredTasks = ref<Task[]>([])
 
@@ -16,6 +20,23 @@ const getColumnName = () => {
 }
 
 const columnName = getColumnName()
+
+const deleteTask = async (id: string, projectId: string) => {
+  const filteredTasks = projectsStore.currentProject?.tasks.filter((item) => item !== id)
+  try {
+    if (projectsStore.currentProject) {
+      const updatedProject = {
+        ...projectsStore.currentProject,
+        tasks: [...(filteredTasks || [])],
+      }
+      if (updatedProject) await updateProject(updatedProject, projectId)
+    }
+
+    await deleteTaskById(id)
+  } catch (e) {
+    console.log(e)
+  }
+}
 
 watchEffect(() => {
   if (props.tasks.length > 0) {
@@ -34,6 +55,7 @@ watchEffect(() => {
         <p>Виконавець: {{ task.assignee }}</p>
         <p>Срок виконання: {{ task.deadline }}</p>
         <p>Статус: {{ columnName }}</p>
+        <button @click="deleteTask(task.id, task.projectId)"></button>
       </div>
     </VueDraggable>
   </div>
