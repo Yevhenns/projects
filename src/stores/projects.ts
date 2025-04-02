@@ -32,6 +32,7 @@ export const useProjectsStore = defineStore('projects', () => {
     isLoadingProjects.value = true
     try {
       projects.value = await getProjects()
+      return true
     } catch (error) {
       console.error('Помилка', error)
     } finally {

@@ -6,7 +6,7 @@ import ModalWrapper from '@/components/ModalWrapper.vue'
 import TasksColumns from '@/components/TasksColumns.vue'
 import { useProjectsStore } from '@/stores/projects'
 import { useTasksStore } from '@/stores/tasks'
-import { nextTick, ref, watchEffect } from 'vue'
+import { ref, watchEffect } from 'vue'
 import { useRouter } from 'vue-router'
 
 const projectsStore = useProjectsStore()
@@ -22,13 +22,16 @@ const toggleIsCreateModalShown = () => {
 
 const refreshTasks = async (taskId: string) => {
   if (projectsStore.currentProject) {
+    const updatedProject = {
+      ...projectsStore.currentProject,
+      tasks: [...projectsStore.currentProject.tasks, taskId],
+    }
+    projectsStore.setCurrentProjectHandler(updatedProject)
     try {
-      const updatedProject = {
-        ...projectsStore.currentProject,
-        tasks: [...projectsStore.currentProject.tasks, taskId],
+      const response = await projectsStore.getProjectsList()
+      if (response) {
+        await tasksStore.getAllTasks()
       }
-      projectsStore.setCurrentProjectHandler(updatedProject)
-      await tasksStore.getAllTasks()
     } catch (e) {
       console.log(e)
     }
@@ -39,7 +42,6 @@ const deleteProject = async () => {
   if (projectsStore.currentProject) {
     try {
       await deleteProjectById(projectsStore.currentProject?.id)
-      await nextTick()
     } catch (e) {
       console.log(e)
     } finally {
