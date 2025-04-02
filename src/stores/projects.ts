@@ -1,6 +1,7 @@
 import { ref } from 'vue'
 import { defineStore } from 'pinia'
 import { useLocalStorage } from '@vueuse/core'
+import { getProjects } from '@/api/api'
 
 export const useProjectsStore = defineStore('projects', () => {
   const projects = ref<Project[]>([])
@@ -10,6 +11,7 @@ export const useProjectsStore = defineStore('projects', () => {
       write: (v: unknown) => JSON.stringify(v),
     },
   })
+  const isLoadingProjects = ref(false)
 
   function setProjects(projectsArray: Project[]) {
     projects.value = projectsArray
@@ -26,5 +28,24 @@ export const useProjectsStore = defineStore('projects', () => {
     currentProject.value = project
   }
 
-  return { projects, currentProject, setProjects, setCurrentProjectById, setCurrentProjectHandler }
+  async function getProjectsList() {
+    isLoadingProjects.value = true
+    try {
+      projects.value = await getProjects()
+    } catch (error) {
+      console.error('Помилка', error)
+    } finally {
+      isLoadingProjects.value = false
+    }
+  }
+
+  return {
+    projects,
+    currentProject,
+    isLoadingProjects,
+    setProjects,
+    setCurrentProjectById,
+    setCurrentProjectHandler,
+    getProjectsList,
+  }
 })

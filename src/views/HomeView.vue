@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { onMounted, ref } from 'vue'
-import { getProjects } from '@/api/api'
 import ModalWrapper from '@/components/ModalWrapper.vue'
 import CreateProjectForm from '@/components/CreateProjectForm.vue'
 import ProjectsTable from '../components/ProjectsTable.vue'
@@ -13,37 +12,25 @@ const projectsStore = useProjectsStore()
 const tasksStore = useTasksStore()
 
 const isCreateModalShown = ref(false)
-const isLoading = ref(false)
-
-const getProjectsList = async () => {
-  isLoading.value = true
-  try {
-    projectsStore.setProjects(await getProjects())
-  } catch (error) {
-    console.error('Помилка', error)
-  } finally {
-    isLoading.value = false
-  }
-}
-
-onMounted(async () => {
-  await getProjectsList()
-  projectsStore.setCurrentProjectHandler(null)
-  await tasksStore.getAllTasks()
-})
 
 const toggleIsCreateModalShown = () => {
   isCreateModalShown.value = !isCreateModalShown.value
 }
 
 const refreshProjects = async () => {
-  await getProjectsList()
+  await projectsStore.getProjectsList()
 }
 
 if (history.state.project === 'deleted') {
   toast.success('Проект видалено!', { autoClose: 2000 })
   history.replaceState({}, '')
 }
+
+onMounted(async () => {
+  await projectsStore.getProjectsList()
+  projectsStore.setCurrentProjectHandler(null)
+  await tasksStore.getAllTasks()
+})
 </script>
 
 <template>
@@ -57,7 +44,7 @@ if (history.state.project === 'deleted') {
     <h2 class="title" v-if="projectsStore.projects.length === 0">Немає проектів</h2>
 
     <Teleport to="body">
-      <div v-if="isLoading" class="loading-wrapper">
+      <div v-if="projectsStore.isLoadingProjects" class="loading-wrapper">
         <p>Завантаження...</p>
       </div>
     </Teleport>
