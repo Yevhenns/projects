@@ -1,15 +1,19 @@
 <script setup lang="ts">
-import { deleteProjectById, getTasks } from '@/api/api'
+import { deleteProjectById } from '@/api/api'
 import AppButton from '@/components/AppButton.vue'
 import CreateTaskForm from '@/components/CreateTaskForm.vue'
 import ModalWrapper from '@/components/ModalWrapper.vue'
-import TaskColumn from '@/components/TaskColumn.vue'
+import TasksColumns from '@/components/TasksColumns.vue'
 import { useProjectsStore } from '@/stores/projects'
+import { useTasksStore } from '@/stores/tasks'
 import { nextTick, onMounted, ref, watchEffect } from 'vue'
 import { useRouter } from 'vue-router'
 
 const store = useProjectsStore()
 const { currentProject, setCurrentProjectHandler } = store
+
+const tasksStore = useTasksStore()
+const { getAllTasks } = tasksStore
 
 const router = useRouter()
 
@@ -17,19 +21,6 @@ const isCreateModalShown = ref(false)
 
 const toggleIsCreateModalShown = () => {
   isCreateModalShown.value = !isCreateModalShown.value
-}
-
-const tasks = ref()
-
-const getAllTasks = async () => {
-  try {
-    const allTasks = await getTasks()
-    const filteredTasks = allTasks.filter((task) => currentProject?.tasks.includes(task.id))
-    console.log(filteredTasks)
-    tasks.value = filteredTasks
-  } catch (e) {
-    console.log(e)
-  }
 }
 
 const refreshTasks = async (taskId: string) => {
@@ -87,12 +78,7 @@ watchEffect(() => {
         @taskCreated="refreshTasks"
       />
     </ModalWrapper>
-    <p>{{ tasks }}</p>
-    <div class="columnsWrapper">
-      <TaskColumn :tasks="tasks" status="todo" />
-      <TaskColumn :tasks="tasks" status="in_progress" />
-      <TaskColumn :tasks="tasks" status="done" />
-    </div>
+    <TasksColumns />
   </div>
 </template>
 
