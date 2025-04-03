@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, ref } from 'vue'
+import { computed } from 'vue'
 import TasksColumnItem from './TasksColumnItem.vue'
 import { useTasksStore } from '@/stores/tasks'
 import { useProjectsStore } from '@/stores/projects'
@@ -7,33 +7,19 @@ import { useProjectsStore } from '@/stores/projects'
 const projectsStore = useProjectsStore()
 const tasksStore = useTasksStore()
 
-const list1 = computed(() => {
+const tasks = computed(() => {
   return tasksStore.allTasks.filter((task) => task.projectId === projectsStore.currentProject?.id)
 })
-
-const list2 = ref(
-  list1.value.map((item) => ({
-    name: `${item.title}-2`,
-    id: `${item.id}-2`,
-  })) as unknown as Task[],
-)
-
-const list3 = ref(
-  list1.value.map((item) => ({
-    name: `${item.title}-3`,
-    id: `${item.id}-3`,
-  })) as unknown as Task[],
-)
 </script>
 
 <template>
-  <h2 v-if="list1.length === 0" class="heading">Немає завдань</h2>
-  <div v-if="list1.length > 0">
+  <h2 v-if="tasks.length === 0" class="heading">Немає завдань</h2>
+  <div v-if="tasks.length > 0">
     <h2 class="heading">Завдання</h2>
     <div class="columnsWrapper">
-      <TasksColumnItem :tasks="list1" status="todo" />
-      <TasksColumnItem :tasks="list2" status="in_progress" />
-      <TasksColumnItem :tasks="list3" status="done" />
+      <TasksColumnItem :tasks="tasks" status="todo" />
+      <TasksColumnItem :tasks="tasks" status="in_progress" />
+      <TasksColumnItem :tasks="tasks" status="done" />
     </div>
   </div>
 </template>
