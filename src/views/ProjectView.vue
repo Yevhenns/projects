@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import { deleteProjectById } from '@/api/api'
-import AppButton from '@/components/AppButton.vue'
-import CreateTaskForm from '@/components/CreateTaskForm.vue'
-import ModalWrapper from '@/components/ModalWrapper.vue'
-import TasksColumns from '@/components/TasksColumns.vue'
+import AppButton from '@/components/shared/AppButton.vue'
+import CreateTaskForm from '@/components/tasks/CreateTaskForm.vue'
+import ModalWrapper from '@/components/shared/ModalWrapper.vue'
+import TasksColumns from '@/components/tasks/TasksColumns.vue'
 import { useProjectsStore } from '@/stores/projects'
 import { useTasksStore } from '@/stores/tasks'
 import { onMounted, ref, watchEffect } from 'vue'

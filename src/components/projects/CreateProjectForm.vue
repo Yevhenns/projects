@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref, watch } from 'vue'
-import AppButton from './AppButton.vue'
+import AppButton from '../shared/AppButton.vue'
 import { createProject } from '@/api/api'
 import { toast } from 'vue3-toastify'
 

@@ -1,10 +1,10 @@
 <script setup lang="ts">
 import { onMounted, ref, watch } from 'vue'
-import ModalWrapper from '@/components/ModalWrapper.vue'
-import CreateProjectForm from '@/components/CreateProjectForm.vue'
-import ProjectsTable from '../components/ProjectsTable.vue'
+import ModalWrapper from '@/components/shared/ModalWrapper.vue'
+import CreateProjectForm from '@/components/projects/CreateProjectForm.vue'
+import ProjectsTable from '../components/projects/ProjectsTable.vue'
 import { useProjectsStore } from '@/stores/projects'
-import AppButton from '@/components/AppButton.vue'
+import AppButton from '@/components/shared/AppButton.vue'
 import { toast } from 'vue3-toastify'
 import { useTasksStore } from '@/stores/tasks'
 
