@@ -79,6 +79,7 @@ defineExpose({ unmaskedDeadline })
     <div>
       <label for="assignee"> Вибір виконавця:</label>
       <select name="assignee" v-model="assignee">
+        <option value="" disabled selected>Оберіть зі списку</option>
         <option v-for="assignee in assignees" :key="assignee" :value="assignee">
           {{ assignee }}
         </option>
