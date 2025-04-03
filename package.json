@@ -15,6 +15,7 @@
   "dependencies": {
     "@vueuse/core": "^13.0.0",
     "axios": "^1.8.4",
+    "maska": "^3.1.1",
     "pinia": "^3.0.1",
     "primeicons": "^7.0.0",
     "sass": "^1.86.0",

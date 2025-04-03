@@ -4,6 +4,7 @@ import AppButton from '../shared/AppButton.vue'
 import { createTask, updateProject } from '@/api/api'
 import { assignees } from '@/assets/assignees'
 import { toast } from 'vue3-toastify'
+import { vMaska } from 'maska/vue'
 
 const props = defineProps<{
   toggleIsCreateModalShown: () => void
@@ -15,6 +16,8 @@ const emit = defineEmits(['taskCreated'])
 const title = ref('')
 const description = ref('')
 const assignee = ref('')
+const unmaskedDeadline = ref('')
+const maskedDeadline = ref('')
 const isValid = ref(false)
 const isLoading = ref(false)
 
@@ -29,7 +32,7 @@ const createNewProject = async () => {
   const task: TaskDto = {
     title: title.value,
     assignee: assignee.value,
-    deadline: new Date().toISOString().split('T')[0],
+    deadline: maskedDeadline.value,
     status: 'todo',
     projectId: props.project.id,
   }
@@ -57,6 +60,8 @@ const createNewProject = async () => {
 }
 
 watch(title, setIsValid)
+
+defineExpose({ unmaskedDeadline })
 </script>
 
 <template>
@@ -70,17 +75,29 @@ watch(title, setIsValid)
         :errorMessage="!isValid ? 'Введіть від 5 символів' : ''"
       />
     </div>
+
     <div>
-      <label for="assignee"> Вибір виконавця: </label>
+      <label for="assignee"> Вибір виконавця:</label>
       <select name="assignee" v-model="assignee">
         <option v-for="assignee in assignees" :key="assignee" :value="assignee">
           {{ assignee }}
         </option>
       </select>
     </div>
+
     <div>
-      <label for="description">Опис завдання </label>
+      <label for="description">Опис завдання</label>
       <input v-model="description" placeholder="Введіть опис проекту" id="description" />
+    </div>
+
+    <div>
+      <label for="deadline">Срок виконання</label>
+      <input
+        v-model="maskedDeadline"
+        v-maska:unmaskedDeadline.unmasked="'####-##-##'"
+        placeholder="РРРР-ММ-ДД"
+        id="maskedDeadline"
+      />
     </div>
 
     <AppButton :isLoading="isLoading" :disabled="!isValid" @click="createNewProject"
