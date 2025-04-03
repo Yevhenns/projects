@@ -32,6 +32,17 @@ export const createTask = async (task: TaskDto): Promise<Task> => {
   return response.data as Task
 }
 
+export const updateTask = async ({
+  task,
+  taskId,
+}: {
+  task: Task
+  taskId: string
+}): Promise<Task> => {
+  const response = await axios.put(`${API_URL}/tasks/${taskId}`, task)
+  return response.data as Task
+}
+
 export const deleteTaskById = async (taskId: string): Promise<Task> => {
   const response = await axios.delete(`${API_URL}/tasks/${taskId}`)
   return response.data as Task

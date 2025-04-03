@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import { deleteTaskById, updateProject } from '@/api/api'
+import { deleteTaskById, updateProject, updateTask } from '@/api/api'
 import { useProjectsStore } from '@/stores/projects'
 import { useTasksStore } from '@/stores/tasks'
 import { ref, watchEffect } from 'vue'
-import { VueDraggable } from 'vue-draggable-plus'
+import { VueDraggable, type SortableEvent } from 'vue-draggable-plus'
 import { toast } from 'vue3-toastify'
 
 const props = defineProps<{
@@ -25,12 +25,12 @@ const getColumnName = () => {
 const columnName = getColumnName()
 
 const deleteTask = async (id: string, projectId: string) => {
-  const filteredTasks = projectsStore.currentProject?.tasks.filter((item) => item !== id)
+  const filteredTasksArray = projectsStore.currentProject?.tasks.filter((item) => item !== id)
   try {
     if (projectsStore.currentProject) {
       const updatedProject = {
         ...projectsStore.currentProject,
-        tasks: [...(filteredTasks || [])],
+        tasks: [...(filteredTasksArray || [])],
       }
       if (updatedProject) {
         await updateProject(updatedProject, projectId)
@@ -50,6 +50,28 @@ const deleteTask = async (id: string, projectId: string) => {
   }
 }
 
+const onEnd = async (event: SortableEvent) => {
+  const fromStatus = event.from.parentElement?.getAttribute('data-status')
+  const toStatus = event.to.parentElement?.getAttribute('data-status')
+  const currentTaskId = event.item.getAttribute('data-id')
+
+  if (fromStatus === toStatus) {
+    return
+  }
+
+  const currentTask = filteredTasks.value.find((item) => item.id === currentTaskId)
+
+  const updatedTask = { ...currentTask, status: toStatus } as Task
+
+  if (currentTaskId) {
+    try {
+      await updateTask({ task: updatedTask, taskId: currentTaskId })
+    } catch (e) {
+      console.log(e)
+    }
+  }
+}
+
 watchEffect(() => {
   if (props.tasks.length > 0) {
     filteredTasks.value = props.tasks.filter((task) => task.status === props.status)
@@ -58,10 +80,22 @@ watchEffect(() => {
 </script>
 
 <template>
-  <div class="column">
+  <div class="column" :data-status="status">
     <h3 class="title">{{ columnName }}</h3>
-    <VueDraggable class="card-wrapper" v-model="filteredTasks" ghostClass="ghost" group="people">
-      <div :class="status" class="card" v-for="task in filteredTasks" :key="task.id">
+    <VueDraggable
+      class="card-wrapper"
+      v-model="filteredTasks"
+      ghostClass="ghost"
+      group="tasks"
+      @end="onEnd"
+    >
+      <div
+        :class="status"
+        class="card"
+        v-for="task in filteredTasks"
+        :key="task.id"
+        :data-id="task.id"
+      >
         <p>ID: {{ task.id }}</p>
         <p>Назва: {{ task.title }}</p>
         <p>Виконавець: {{ task.assignee }}</p>
