@@ -28,6 +28,11 @@ if (history.state.project === 'deleted') {
   history.replaceState({}, '')
 }
 
+if (history.state.project === 'was deleted') {
+  toast.error('Проект було видалено!', { autoClose: 2000 })
+  history.replaceState({}, '')
+}
+
 watch(
   filter,
   () =>

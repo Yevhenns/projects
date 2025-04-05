@@ -5,6 +5,7 @@ import { createTask, updateProject } from '@/api/api'
 import { assignees } from '@/assets/assignees'
 import { toast } from 'vue3-toastify'
 import { vMaska } from 'maska/vue'
+import router from '@/router'
 
 const props = defineProps<{
   toggleIsCreateModalShown: () => void
@@ -27,6 +28,22 @@ const setIsValid = () => {
   isValid.value = title.value.length >= projectTitleMinLength
 }
 
+const upDateProjectTasks = async (updatedProject: Project, taskId: string) => {
+  try {
+    await updateProject(updatedProject, props.project.id)
+
+    emit('taskCreated', taskId)
+    props.toggleIsCreateModalShown()
+
+    toast.success('Завдання створено!', {
+      autoClose: 2000,
+    })
+  } catch (e) {
+    console.log(e)
+    router.push({ path: '/', state: { project: 'was deleted' } })
+  }
+}
+
 const createNewProject = async () => {
   isLoading.value = true
   const task: TaskDto = {
@@ -43,19 +60,13 @@ const createNewProject = async () => {
         ...props.project,
         tasks: [...props.project.tasks, res.id],
       }
-      await updateProject(updatedProject, props.project.id)
-
-      emit('taskCreated', res.id)
-      props.toggleIsCreateModalShown()
+      await upDateProjectTasks(updatedProject, res.id)
     }
   } catch (e) {
     console.log(e)
     isLoading.value = false
   } finally {
     isLoading.value = false
-    toast.success('Завдання створено!', {
-      autoClose: 2000,
-    })
   }
 }
 
