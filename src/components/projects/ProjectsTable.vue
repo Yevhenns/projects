@@ -11,10 +11,19 @@ const goToProject = (id: string) => {
   projectStore.setCurrentProjectId(id)
   router.push(`/${id}`)
 }
+
+const onEnd = () => {
+  console.log(projectStore.filteredProjects)
+}
 </script>
 
 <template>
-  <VueDraggable v-model="projectStore.filteredProjects" target=".sort-target" :animation="150">
+  <VueDraggable
+    v-model="projectStore.filteredProjects"
+    target=".sort-target"
+    :animation="150"
+    @end="onEnd"
+  >
     <table class="table">
       <thead>
         <tr>

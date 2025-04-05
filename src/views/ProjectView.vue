@@ -46,6 +46,9 @@ const deleteProject = async () => {
 onMounted(async () => {
   await projectsStore.getProjectsList()
   await tasksStore.getAllTasks()
+  if (projectsStore.currentProjectId && !projectsStore.currentProject) {
+    projectsStore.setCurrentProjectId(null)
+  }
 })
 
 watchEffect(() => {
