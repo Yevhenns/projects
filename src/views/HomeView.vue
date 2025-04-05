@@ -7,6 +7,7 @@ import { useProjectsStore } from '@/stores/projects'
 import AppButton from '@/components/shared/AppButton.vue'
 import { toast } from 'vue3-toastify'
 import { useTasksStore } from '@/stores/tasks'
+import AppSpinner from '@/components/shared/AppSpinner.vue'
 
 const projectsStore = useProjectsStore()
 const tasksStore = useTasksStore()
@@ -66,11 +67,7 @@ onMounted(async () => {
       Немає проектів
     </h2>
 
-    <Teleport to="body">
-      <div v-if="projectsStore.isLoadingProjects" class="loading-wrapper">
-        <p>Завантаження...</p>
-      </div>
-    </Teleport>
+    <AppSpinner v-if="projectsStore.isLoadingProjects" />
 
     <ModalWrapper :isCreateModalShown :toggleIsCreateModalShown>
       <CreateProjectForm :toggleIsCreateModalShown @projectCreated="refreshProjects" />
@@ -79,32 +76,23 @@ onMounted(async () => {
 </template>
 
 <style scoped lang="scss">
-.loading-wrapper {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
+.page {
+  .controls {
+    align-items: center;
+    justify-content: flex-start;
+    display: flex;
+    margin-bottom: 20px;
+    gap: 20px;
+  }
 
-.controls {
-  align-items: center;
-  justify-content: flex-start;
-  display: flex;
-  margin-bottom: 20px;
-  gap: 20px;
-}
+  .filter-input {
+    width: 200px;
+  }
 
-.filter-input {
-  width: 200px;
-}
-
-.heading {
-  text-align: center;
-  font-size: 24px;
-  font-weight: 600;
+  .heading {
+    text-align: center;
+    font-size: 24px;
+    font-weight: 600;
+  }
 }
 </style>
