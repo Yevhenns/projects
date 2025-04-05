@@ -8,6 +8,7 @@ import { useProjectsStore } from '@/stores/projects'
 import { useTasksStore } from '@/stores/tasks'
 import { onMounted, ref, watchEffect } from 'vue'
 import { useRouter } from 'vue-router'
+import AppSpinner from '@/components/shared/AppSpinner.vue'
 
 const projectsStore = useProjectsStore()
 const tasksStore = useTasksStore()
@@ -80,6 +81,8 @@ watchEffect(() => {
     </ModalWrapper>
 
     <TasksColumns />
+
+    <AppSpinner v-if="tasksStore.isLoadingTasks" />
   </div>
 </template>
 

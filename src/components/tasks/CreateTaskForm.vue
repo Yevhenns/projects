@@ -83,13 +83,14 @@ defineExpose({ unmaskedDeadline })
         v-model="title"
         placeholder="Введіть назву завдання"
         id="title"
+        name="title"
         :errorMessage="!isValid ? 'Введіть від 5 символів' : ''"
       />
     </div>
 
     <div>
       <label for="assignee"> Вибір виконавця:</label>
-      <select name="assignee" v-model="assignee">
+      <select name="assignee" id="assignee" v-model="assignee">
         <option value="" disabled selected>Оберіть зі списку</option>
         <option v-for="assignee in assignees" :key="assignee" :value="assignee">
           {{ assignee }}
@@ -108,7 +109,7 @@ defineExpose({ unmaskedDeadline })
         v-model="maskedDeadline"
         v-maska:unmaskedDeadline.unmasked="'####-##-##'"
         placeholder="РРРР-ММ-ДД"
-        id="maskedDeadline"
+        id="deadline"
       />
     </div>
 

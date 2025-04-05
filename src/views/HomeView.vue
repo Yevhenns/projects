@@ -55,7 +55,7 @@ onMounted(async () => {
     <div class="controls">
       <AppButton type="button" @click="toggleIsCreateModalShown"> Створити проект </AppButton>
 
-      <input class="filter-input" placeholder="Фільтр" v-model="filter" />
+      <input class="filter-input" placeholder="Фільтр" v-model="filter" id="filter" />
     </div>
 
     <ProjectsTable v-if="projectsStore.filteredProjects.length > 0" />
